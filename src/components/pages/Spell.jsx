@@ -1,36 +1,61 @@
-import { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { withRouter, useParams } from "react-router-dom";
 
 import { shuffle } from "../../services/utils";
 
 import SpellWord from "../spell/SpellWord";
 import SpellFeedback from "../spell/SpellFeedback";
 import SpellTextInput from "../spell/SpellTextInput";
+import api from "../../services/api";
+
+import AuthContext from "../../contexts/AuthContext";
+import NavContext from "../../contexts/NavContext";
 
 const Spell = (props) => {
   const [status, setStatus] = useState(null);
+  const { id } = useParams();
+  const { user } = useContext(AuthContext);
+  const { setPage } = useContext(NavContext);
 
   useEffect(() => {
-    const data = {
-      consecutiveCorrect: 2,
-      words: ["pulse", "tiger", "moon"],
+    setPage("spell");
+
+    return () => setPage(null);
+  }, []); // eslint-disable-line
+
+  useEffect(() => {
+    const getWordBag = async () => {
+      try {
+        const response = await api.getWordBag(id);
+
+        const {
+          words,
+          consecutive_correct: consecutiveCorrect,
+          title,
+        } = response.data.data;
+
+        let wordList = [];
+
+        for (let i = 0; i < consecutiveCorrect; i++) {
+          wordList.push(...shuffle(words));
+        }
+
+        setStatus({
+          attempts: [],
+          wordList,
+          stage: "pre",
+          isCorrect: false,
+          currentWordIdx: 0,
+          currentWord: wordList[0],
+          consecutiveCorrect,
+          title,
+        });
+      } catch (err) {
+        console.log(err.message);
+      }
     };
-
-    let wordList = [];
-
-    for (let i = 0; i < data.consecutiveCorrect; i++) {
-      wordList.push(...shuffle(data.words));
-    }
-
-    setStatus({
-      attempts: [],
-      wordList,
-      stage: "pre",
-      isCorrect: false,
-      currentWordIdx: 0,
-      currentWord: wordList[0],
-    });
-  }, []);
+    getWordBag();
+  }, [id]);
 
   const checkAnswer = (answer) => {
     return status.currentWord.toLowerCase() === answer.toLowerCase();
@@ -71,16 +96,29 @@ const Spell = (props) => {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const currentWordIdx = status.currentWordIdx + 1;
     const currentWord = status.wordList[currentWordIdx];
 
     if (currentWordIdx === status.wordList.length) {
-      props.history.push({
-        pathname: "/results",
-        state: { attempts: status.attempts },
-      });
-      return;
+      try {
+        await api.savePractice({
+          wordBag: id,
+          attempts: status.attempts,
+          user: user ? user.id : null,
+          consecutive_correct: status.consecutiveCorrect,
+        });
+
+        props.history.push({
+          pathname: "/results",
+          state: { attempts: status.attempts },
+        });
+
+        return;
+      } catch (err) {
+        console.log(err.message);
+        return;
+      }
     }
 
     setStatus({
@@ -102,12 +140,15 @@ const Spell = (props) => {
     <div className="h-full w-full flex items-center justify-center">
       {status ? (
         status.stage === "pre" ? (
-          <button
-            className="text-3xl text-white border rounded-xl py-4 px-8 shadow-xl bg-purple-600 focus:outline-none"
-            onClick={handleStart}
-          >
-            Start Practice
-          </button>
+          <div>
+            <h1>{status.title}</h1>
+            <button
+              className="text-3xl text-white border rounded-xl py-4 px-8 shadow-xl bg-purple-600 focus:outline-none"
+              onClick={handleStart}
+            >
+              Start Practice
+            </button>
+          </div>
         ) : (
           <div className="h-32">
             {

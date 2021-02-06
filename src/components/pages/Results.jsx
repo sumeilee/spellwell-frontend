@@ -41,9 +41,9 @@ const Results = (props) => {
       <h3 className="text-2xl">Here's how you did</h3>
       <div className="mt-4">
         {results &&
-          Object.keys(results).map((key) => {
+          Object.keys(results).map((key, idx) => {
             return (
-              <div>
+              <div key={idx}>
                 <p>
                   {key}: {Math.round(results[key].accuracy)}%
                 </p>
