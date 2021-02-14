@@ -16,7 +16,7 @@ const Header = (props) => {
 
   const handleLogout = () => {
     props.cookies.remove("token", { path: "/" });
-    window.location.href = "/";
+    window.location.href = "/login";
   };
 
   return (
@@ -100,13 +100,12 @@ const Header = (props) => {
                 >
                   Dashboard
                 </Link>
-                <a
-                  href="/"
+                <button
                   onClick={handleLogout}
-                  className="block fmx-3 my-1 px-4 py-2 rounded"
+                  className="block fmx-3 my-1 px-4 py-2 rounded focus:outline-none"
                 >
                   Logout
-                </a>
+                </button>
               </div>
             )}
           </div>
