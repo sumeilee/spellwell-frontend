@@ -19,7 +19,7 @@ const api = {
   updateWordBag: (bagId, data) => {
     return ax({
       method: "PATCH",
-      url: `${baseURL}/wordbags/${bagId}/edit`,
+      url: `${baseURL}/wordbags/${bagId}`,
       data,
     });
   },
@@ -60,10 +60,25 @@ const api = {
     });
   },
 
+  deletePractice: (id) => {
+    return ax({
+      method: "DELETE",
+      url: `${baseURL}/practices/${id}`,
+    });
+  },
+
   login: (data) => {
     return ax({
       method: "POST",
       url: `${baseURL}/login`,
+      data,
+    });
+  },
+
+  register: (data) => {
+    return ax({
+      method: "POST",
+      url: `${baseURL}/register`,
       data,
     });
   },

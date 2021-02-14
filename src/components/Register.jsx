@@ -8,7 +8,7 @@ import api from "../services/api";
 
 import AuthContext from "../contexts/AuthContext";
 
-const Login = (props) => {
+const Register = (props) => {
   const [errMsg, setErrMsg] = useState("");
   const { setUser } = useContext(AuthContext);
 
@@ -19,21 +19,19 @@ const Login = (props) => {
     const password = e.target.password.value;
 
     try {
-      const response = await api.login({ username, password });
+      const response = await api.register({ username, password });
 
-      if (response.status === 200) {
-        const { token, expiresAt } = response.data;
+      const { token, expiresAt } = response.data;
 
-        props.cookies.set("token", token, {
-          path: "/",
-          expires: moment.unix(expiresAt).toDate(),
-        });
+      props.cookies.set("token", token, {
+        path: "/",
+        expires: moment.unix(expiresAt).toDate(),
+      });
 
-        const user = jwt.decode(token);
-        setUser(user);
+      const user = jwt.decode(token);
+      setUser(user);
 
-        props.history.push("/dashboard");
-      }
+      props.history.push("/dashboard");
     } catch (err) {
       setErrMsg(err.response.data.message);
     }
@@ -41,7 +39,7 @@ const Login = (props) => {
 
   return (
     <div className="flex flex-col items-center w-60 mt-10 mx-auto">
-      <h1 className="text-2xl py-2">Login</h1>
+      <h1 className="text-2xl py-2">Sign Up</h1>
       <form onSubmit={handleSubmit} className="flex flex-col mt-4">
         <div className="flex flex-col">
           <label htmlFor="username" className="font-semibold ml-1">
@@ -73,11 +71,11 @@ const Login = (props) => {
           type="submit"
           className="text-md text-white border rounded-xl py-2 px-4 mt-8 shadow-xl bg-purple-600 focus:outline-none"
         >
-          Login
+          Register
         </button>
       </form>
     </div>
   );
 };
 
-export default withRouter(withCookies(Login));
+export default withRouter(withCookies(Register));

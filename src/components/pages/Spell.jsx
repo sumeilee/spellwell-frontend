@@ -106,7 +106,6 @@ const Spell = (props) => {
           wordBag: id,
           attempts: status.attempts,
           user: user ? user.id : null,
-          consecutive_correct: status.consecutiveCorrect,
         });
 
         props.history.push({
@@ -140,10 +139,10 @@ const Spell = (props) => {
     <div className="h-full w-full flex items-center justify-center">
       {status ? (
         status.stage === "pre" ? (
-          <div>
-            <h1>{status.title}</h1>
+          <div className="flex flex-col items-center">
+            <h1 className="text-2xl font-semibold">{status.title}</h1>
             <button
-              className="text-3xl text-white border rounded-xl py-4 px-8 shadow-xl bg-purple-600 focus:outline-none"
+              className="text-2xl text-white border rounded-xl py-4 px-8 mt-10 shadow-xl bg-purple-600 focus:outline-none"
               onClick={handleStart}
             >
               Start Practice

@@ -94,72 +94,83 @@ const CreateWordBag = (props) => {
   };
 
   return (
-    <div className="p-10">
-      <div>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          className="py-2 px-4 border focus:outline-none"
-          value={fields.title}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="minCorrect">Consecutive Correct</label>
-        <input
-          type="text"
-          name="consecutive_correct"
-          id="minCorrect"
-          className="py-2 px-4 border focus:outline-none"
-          value={fields.consecutive_correct}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        {Object.keys(wordBag).length > 0 && (
-          <div>
-            {Object.keys(wordBag).map((fieldName, idx) => (
-              <div className="flex p-2" key={idx}>
-                <input
-                  className="w-40 py-2 px-4 border focus:outline-none"
-                  type="text"
-                  name={fieldName}
-                  value={wordBag[fieldName]}
-                  onChange={handleInputChange}
-                />
-                <button
-                  className="cursor-pointer"
-                  name={fieldName}
-                  onClick={handleRemoveWord}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-        <div>
-          <form onSubmit={handleAddWord}>
-            <input
-              className="w-40 py-2 px-4 border focus:outline-none"
-              type="text"
-              name="word"
-              autoFocus
-            />
-            <button className="cursor-pointer" type="submit">
-              +
-            </button>
-          </form>
+    <div className="flex flex-col items-center px-8 max-w-sm m-auto">
+      <h1 className="text-2xl py-2">Create a WordBag</h1>
+      <div className="mt-4">
+        <div className="flex flex-col">
+          <label htmlFor="title" className="font-semibold ml-1">
+            Title
+          </label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            className="py-2 px-4 mt-1 border rounded-lg focus:outline-none"
+            value={fields.title}
+            onChange={handleInputChange}
+          />
         </div>
+        <div className="flex flex-col mt-4">
+          <label htmlFor="minCorrect" className="font-semibold ml-1">
+            Consecutive Correct
+          </label>
+          <input
+            type="text"
+            name="consecutive_correct"
+            id="minCorrect"
+            className="py-2 px-4 mt-1 border rounded-lg focus:outline-none"
+            value={fields.consecutive_correct}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="flex flex-col mt-4">
+          <p className="mb-1 font-semibold ml-1">Words</p>
+          {Object.keys(wordBag).length > 0 && (
+            <div className="flex flex-col">
+              {Object.keys(wordBag).map((fieldName, idx) => (
+                <div className="flex mb-4" key={idx}>
+                  <input
+                    className="w-full py-2 px-4 border rounded-lg focus:outline-none"
+                    type="text"
+                    name={fieldName}
+                    value={wordBag[fieldName]}
+                    onChange={handleInputChange}
+                  />
+                  <button
+                    className="focus:outline-none text-gray-700 w-12 px-2"
+                    name={fieldName}
+                    onClick={handleRemoveWord}
+                  >
+                    <i className="far fa-trash-alt mx-2"></i>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="w-full flex">
+            <form onSubmit={handleAddWord} className="flex w-full">
+              <input
+                className="w-full py-2 px-4 border rounded-lg focus:outline-none"
+                type="text"
+                name="word"
+                autoFocus
+              />
+              <button
+                className="focus:outline-none text-gray-700 w-12 px-2"
+                type="submit"
+              >
+                <i className="fas fa-plus"></i>
+              </button>
+            </form>
+          </div>
 
-        <button
-          className="text-md text-white border rounded-xl py-2 px-4 mt-4 shadow-xl bg-purple-600 focus:outline-none"
-          onClick={handleCreateList}
-        >
-          Create Word Bag
-        </button>
+          <button
+            className="text-md text-white border rounded-xl py-2 px-4 mt-8 shadow-xl bg-purple-600 focus:outline-none"
+            onClick={handleCreateList}
+          >
+            Create Word Bag
+          </button>
+        </div>
       </div>
     </div>
   );
