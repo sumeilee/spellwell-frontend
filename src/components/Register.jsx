@@ -33,7 +33,11 @@ const Register = (props) => {
 
       props.history.push("/dashboard");
     } catch (err) {
-      setErrMsg(err.response.data.message);
+      if (err.response && err.response.data) {
+        setErrMsg(err.response.data.message);
+      } else {
+        setErrMsg("Error signing up");
+      }
     }
   };
 

@@ -14,7 +14,12 @@ const Header = (props) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
   const handleLogout = () => {
+    handleLinkClick();
     props.cookies.remove("token", { path: "/" });
     window.location.href = "/login";
   };
@@ -64,12 +69,20 @@ const Header = (props) => {
           <div
             className={`${
               isMenuOpen ? "block" : "hidden"
-            } sm:flex sm:items-center`}
+            } pb-2 sm:flex sm:items-center`}
           >
-            <Link to="/wordbags" className="block mx-3 my-1 px-4 py-2 rounded">
+            <Link
+              to="/wordbags"
+              className="block mx-3 my-1 px-4 py-2 rounded"
+              onClick={handleLinkClick}
+            >
               Browse Word Bags
             </Link>
-            <Link to="/new-bag" className="block mx-3 my-1 px-4 py-2 rounded">
+            <Link
+              to="/new-bag"
+              className="block mx-3 my-1 px-4 py-2 rounded"
+              onClick={handleLinkClick}
+            >
               Create Word Bag
             </Link>
             {!user ? (
@@ -78,12 +91,17 @@ const Header = (props) => {
                   isMenuOpen ? "block" : "hidden"
                 } sm:flex sm:items-center`}
               >
-                <Link to="/login" className="block mx-3 my-1 px-4 py-2 rounded">
+                <Link
+                  to="/login"
+                  className="block mx-3 my-1 px-4 py-2 rounded"
+                  onClick={handleLinkClick}
+                >
                   Login
                 </Link>
                 <Link
                   to="/register"
                   className="block mx-3 my-1 px-4 py-2 rounded "
+                  onClick={handleLinkClick}
                 >
                   Sign Up
                 </Link>
@@ -92,17 +110,18 @@ const Header = (props) => {
               <div
                 className={`${
                   isMenuOpen ? "block" : "hidden"
-                } py-2 sm:flex sm:items-center`}
+                } sm:flex sm:items-center`}
               >
                 <Link
                   to="/dashboard"
                   className="block mx-3 my-1 px-4 py-2 rounded"
+                  onClick={handleLinkClick}
                 >
                   Dashboard
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block fmx-3 my-1 px-4 py-2 rounded focus:outline-none"
+                  className="block mx-3 my-1 px-4 py-2 rounded focus:outline-none"
                 >
                   Logout
                 </button>
