@@ -36,7 +36,7 @@ const BagList = () => {
               </Link>
             </div>
 
-            <div className="w-full flex px-2 py-2 grid grid-cols-3 sm:grid-cols-4 ">
+            <div className="w-full px-2 py-2 grid grid-cols-3 sm:grid-cols-4 ">
               {bag.words.map((word, j) => (
                 <p key={j} className="mx-4">
                   {word}

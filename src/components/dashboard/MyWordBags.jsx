@@ -1,5 +1,7 @@
 import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import api from "../../services/api";
 
@@ -8,7 +10,7 @@ import AuthContext from "../../contexts/AuthContext";
 const MyWordBags = (props) => {
   const [wordBags, setWordBags] = useState([]);
   const { user } = useContext(AuthContext);
-  console.log(user);
+  let tipRef = {};
 
   const getWordBagsByUser = async () => {
     try {
@@ -26,7 +28,6 @@ const MyWordBags = (props) => {
 
   const handleDeleteBag = async (id) => {
     try {
-      // const response = await api.deleteWordBag(id);
       const response = await api.updateWordBag(id, {
         owner: null,
         updated_at: Date.now(),
@@ -50,10 +51,25 @@ const MyWordBags = (props) => {
           >
             <div className="flex w-full justify-between items-center px-4 py-2 bg-purple-500 text-white">
               <p className="text-lg font-semibold">{bag.title}</p>
-              <div>
+              <div className="flex items-center">
                 <Link to={`/spell/${bag._id}`}>
                   <i className="far fa-play-circle mx-2"></i>
                 </Link>
+                <p
+                  data-tip="Link copied"
+                  ref={(ref) => (tipRef[bag._id] = ref)}
+                ></p>
+                <ReactTooltip
+                  afterShow={() => setTimeout(ReactTooltip.hide, 2000)}
+                  offset={{ top: 5, right: 15 }}
+                />
+                <CopyToClipboard
+                  text={`${process.env.REACT_APP_BASE_URL}/spell/${bag._id}`}
+                  onCopy={() => ReactTooltip.show(tipRef[bag._id])}
+                >
+                  <i className="fas fa-share-alt cursor-pointer mx-2"></i>
+                </CopyToClipboard>
+
                 <button
                   name={bag._id}
                   onClick={() => props.handleEditClick(bag._id)}
@@ -84,4 +100,4 @@ const MyWordBags = (props) => {
   );
 };
 
-export default MyWordBags;
+export default withRouter(MyWordBags);
