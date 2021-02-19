@@ -34,10 +34,16 @@ const Spell = (props) => {
           title,
         } = response.data.data;
 
+        const audioResponse = await api.getAllWordSpeech(words);
+
+        const audioWords = audioResponse.data.data;
+        console.log(audioWords);
+
         let wordList = [];
 
         for (let i = 0; i < consecutiveCorrect; i++) {
-          wordList.push(...shuffle(words));
+          //wordList.push(...shuffle(words));
+          wordList.push(...shuffle(audioWords));
         }
 
         setStatus({
@@ -58,7 +64,8 @@ const Spell = (props) => {
   }, [id]);
 
   const checkAnswer = (answer) => {
-    return status.currentWord.toLowerCase() === answer.toLowerCase();
+    return status.currentWord.word.toLowerCase() === answer.toLowerCase();
+    //return status.currentWord.toLowerCase() === answer.toLowerCase();
   };
 
   const processAnswer = (answer) => {
@@ -74,7 +81,7 @@ const Spell = (props) => {
     setStatus({
       ...status,
       attempts: status.attempts.concat({
-        word: status.currentWord,
+        word: status.currentWord.word,
         answer: answer,
         isCorrect,
         responseTime: null,
@@ -152,10 +159,15 @@ const Spell = (props) => {
           <div className="h-32">
             {
               {
-                spell: <SpellWord word={status.currentWord} />,
+                spell: (
+                  <SpellWord
+                    word={status.currentWord.word}
+                    audioData={status.currentWord.audioData}
+                  />
+                ),
                 feedback: (
                   <SpellFeedback
-                    word={status.currentWord}
+                    word={status.currentWord.word}
                     isCorrect={status.isCorrect}
                     handleContinue={handleContinue}
                   />

@@ -25,8 +25,6 @@ const CreateWordBag = (props) => {
     const fieldName = e.target.name;
     const value = e.target.value;
 
-    console.log(e.target.value);
-
     if (Object.keys(fields).includes(fieldName)) {
       setFields({ ...fields, [fieldName]: value });
     } else {
@@ -67,6 +65,9 @@ const CreateWordBag = (props) => {
     const words = Object.values(wordBag);
     const { title, consecutive_correct } = fields;
 
+    console.log(fields);
+    console.log(title);
+
     if (words.length > 0) {
       const data = {
         title,
@@ -80,7 +81,7 @@ const CreateWordBag = (props) => {
         if (response.status === 201) {
           console.log(response.data);
           if (user) {
-            props.history.push("/dashboard");
+            props.history.push("/dashboard/bag");
           } else {
             props.history.push("/");
           }
@@ -94,7 +95,7 @@ const CreateWordBag = (props) => {
   };
 
   return (
-    <div className="flex flex-col items-center px-8 max-w-sm m-auto">
+    <div className="flex flex-col items-center px-8 py-4 max-w-sm m-auto">
       <h1 className="text-2xl py-2">Create a WordBag</h1>
       <div className="mt-4">
         <div className="flex flex-col">
