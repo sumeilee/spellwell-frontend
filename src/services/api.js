@@ -89,6 +89,20 @@ const api = {
       url: `${baseURL}/practices?user=${user}`,
     });
   },
+
+  getWordSpeech: (word) => {
+    return ax({
+      method: "GET",
+      url: `${baseURL}/words?word=${word}`,
+    });
+  },
+
+  getAllWordSpeech: (words) => {
+    return ax({
+      method: "GET",
+      url: `${baseURL}/words?words=${words}`,
+    });
+  },
 };
 
 export default api;
