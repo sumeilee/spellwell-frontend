@@ -21,9 +21,9 @@ const BagList = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center px-6 pb-6">
+    <div className="w-full flex flex-col items-center justify-center px-6 pb-6 m-auto sm:w-2/3 max-w-xl">
       <h1 className="text-2xl py-2">All WordBags</h1>
-      <div className="flex flex-col w-full sm:w-2/3 max-w-md margin-auto">
+      <div className="flex flex-col w-full">
         {wordBags.map((bag, i) => (
           <div
             key={i}
@@ -36,7 +36,7 @@ const BagList = () => {
               </Link>
             </div>
 
-            <div className="w-full px-2 py-2 grid grid-cols-3 sm:grid-cols-4 ">
+            <div className="w-full px-2 py-4 grid grid-cols-3 sm:grid-cols-4 ">
               {bag.words.map((word, j) => (
                 <p key={j} className="mx-4">
                   {word}
