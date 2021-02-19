@@ -166,7 +166,7 @@ const EditWordBag = (props) => {
               className="focus:outline-none text-gray-700 w-12 px-2"
               type="submit"
             >
-              <i class="fas fa-plus"></i>
+              <i className="fas fa-plus"></i>
             </button>
           </form>
         </div>
