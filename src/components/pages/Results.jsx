@@ -38,7 +38,7 @@ const Results = (props) => {
   }, [props.location.state.attempts]);
 
   return (
-    <div className="flex flex-col items-center justify-center py-8">
+    <div className="flex flex-col items-center justify-center">
       <div className="w-72 flex flex-col items-center border rounded-lg overflow-hidden shadow-lg">
         <h3 className="w-full text-center text-xl font-semibold px-6 py-2 bg-purple-700 text-white">
           Score card

@@ -35,7 +35,7 @@ const Dashboard = (props) => {
   };
 
   return (
-    <div className="flex flex-col w-full justify-center items-center m-auto sm:w-2/3 max-w-xl">
+    <div className="flex flex-col w-full justify-center items-center m-auto sm:w-2/3 max-w-md">
       <h1 className="text-2xl py-2">My Dashboard</h1>
       <div className="flex justify-center w-full mt-2">
         <DashboardPill
