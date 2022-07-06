@@ -1,8 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from 'react';
 
-import api from "../../services/api";
+import api from '../../services/api';
 
-import AuthContext from "../../contexts/AuthContext";
+import AuthContext from '../../contexts/AuthContext';
 
 const MyPractices = () => {
   const [practiceList, setPracticeList] = useState([]);
@@ -12,6 +12,11 @@ const MyPractices = () => {
     const byBag = {};
 
     practices.forEach((practice) => {
+      if (!practice.wordBag) {
+        // if wordbag has been deleted
+        return;
+      }
+
       const bagId = practice.wordBag._id;
       if (!Object.keys(byBag).includes(bagId)) {
         byBag[bagId] = [];
@@ -85,16 +90,16 @@ const MyPractices = () => {
                         <div key={j} className="flex flex-col items-center">
                           <p
                             className={`${
-                              result["accuracy"] < 100
-                                ? "text-yellow-700"
-                                : "text-green-700"
+                              result['accuracy'] < 100
+                                ? 'text-yellow-700'
+                                : 'text-green-700'
                             }`}
                           >
-                            {result["numCorrect"]}{" "}
-                            <span className="text-xl">/</span>{" "}
-                            {result["numAttempts"]}{" "}
+                            {result['numCorrect']}{' '}
+                            <span className="text-xl">/</span>{' '}
+                            {result['numAttempts']}{' '}
                           </p>
-                          <p className="mx-4">{result["word"]}</p>
+                          <p className="mx-4">{result['word']}</p>
                         </div>
                       ))}
                     </div>
