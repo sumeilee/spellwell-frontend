@@ -10,10 +10,11 @@ let voices;
 
 synth.onvoiceschanged = () => {
   voices = synth.getVoices();
-  // console.log(voices);
 
-  utter.voice = voices[50];
-  utterFeedback.voice = voices[50];
+  const enUS = voices.filter((voice) => voice.lang === 'en-US');
+  const idx = Math.min(4, voices.length);
+  utter.voice = enUS[idx];
+  utterFeedback.voice = enUS[idx];
 };
 
 export default synth;
