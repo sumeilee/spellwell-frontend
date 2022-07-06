@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext } from "react";
-import { Link, withRouter } from "react-router-dom";
-import ReactTooltip from "react-tooltip";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useEffect, useState, useContext } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import ReactTooltip from 'react-tooltip';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import api from "../../services/api";
+import api from '../../services/api';
 
-import AuthContext from "../../contexts/AuthContext";
+import AuthContext from '../../contexts/AuthContext';
 
 const MyWordBags = (props) => {
   const [wordBags, setWordBags] = useState([]);
@@ -28,10 +28,12 @@ const MyWordBags = (props) => {
 
   const handleDeleteBag = async (id) => {
     try {
-      const response = await api.updateWordBag(id, {
-        owner: null,
-        updated_at: Date.now(),
-      });
+      // const response = await api.updateWordBag(id, {
+      //   owner: null,
+      //   updated_at: Date.now(),
+      // });
+
+      const response = await api.deleteWordBag(id);
 
       if (response.status === 200) {
         getWordBagsByUser();
